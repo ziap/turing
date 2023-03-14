@@ -52,7 +52,7 @@ symbol_t tape_read(tape_t *tape) { return tape->data[tape->head]; }
 
 void tape_write(tape_t *tape, symbol_t value) {
   if (value) {
-    if (tape->head >= tape->end) tape->end = tape->head + 1;
+    if (tape->head + 1 > tape->end) tape->end = tape->head + 1;
     if (tape->head < tape->begin) tape->begin = tape->head;
   }
 

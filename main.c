@@ -80,4 +80,6 @@ int main(void) {
 
   machine_run(&m, inputs, sizeof(inputs) / sizeof(symbol_t), GO_TO_END);
   machine_free(&m);
+
+  return 0;
 }
