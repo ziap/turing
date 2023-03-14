@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 #include "src/machine.h"
 
 int main(void) {
