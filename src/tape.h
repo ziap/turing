@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-typedef uint32_t symbol_t;
+typedef uint16_t symbol_t;
 
 typedef struct {
   symbol_t *data;

@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define TAPE_INIT_SIZE 256  // * 4 bytes = 1 KB
+#define TAPE_INIT_SIZE 512  // * 2 bytes = 1 KB
 
 void tape_init(tape_t *tape) {
   tape->size = TAPE_INIT_SIZE;
@@ -51,12 +51,13 @@ void tape_move_left(tape_t *tape) {
 symbol_t tape_read(tape_t *tape) { return tape->data[tape->head]; }
 
 void tape_write(tape_t *tape, symbol_t value) {
+  tape->data[tape->head] = value;
   if (value) {
     if (tape->head + 1 > tape->end) tape->end = tape->head + 1;
     if (tape->head < tape->begin) tape->begin = tape->head;
   }
-
-  tape->data[tape->head] = value;
+  while (tape->end > tape->begin && !tape->data[tape->end - 1]) tape->end--;
+  while (tape->end > tape->begin && !tape->data[tape->begin]) tape->begin++;
 }
 
 void tape_free(tape_t *tape) {

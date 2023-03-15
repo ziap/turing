@@ -5,7 +5,7 @@
 
 #include "tape.h"
 
-typedef uint32_t state_t;
+typedef uint16_t state_t;
 
 typedef enum {
   HOLD,
