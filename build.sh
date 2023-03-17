@@ -3,8 +3,11 @@
 set -xe
 
 CC=clang
-CFLAGS="-Wall -Wextra -std=c99 -pedantic -O3 -march=native -mtune=native"
+CFLAGS="-Wall -Wextra -pedantic -fshort-enums"
+# CFLAGS+=" -ggdb"
+CFLAGS+=" -O3 -march=native -mtune=native -s"
+
 LDLIBS=""
 SRC="$(ls src/*.c) main.c"
 
-$CC -o main $CFLAGS $LDLIBS $SRC
+$CC -o turing $CFLAGS $LDLIBS $SRC

@@ -60,6 +60,4 @@ void tape_write(tape_t *tape, symbol_t value) {
   while (tape->end > tape->begin && !tape->data[tape->begin]) tape->begin++;
 }
 
-void tape_free(tape_t *tape) {
-  if (tape->data) free(tape->data);
-}
+void tape_free(tape_t *tape) { free(tape->data); }

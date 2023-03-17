@@ -23,21 +23,20 @@ typedef struct {
   symbol_t symbol_count;
   state_t state_count;
 
-  const char** symbols;
-  const char** states;
+  char** symbols;
+  char** states;
 
+  state_t default_state;
   rule_t* rules;
 } machine_t;
 
-extern void machine_init(
-  machine_t*, const char**, size_t, const char**, size_t
-);
+extern void machine_init(machine_t*, char**, size_t, char**, size_t, state_t);
 
 extern void machine_add_rule(
   machine_t*, state_t, symbol_t, symbol_t, move_t, state_t
 );
 
-extern void machine_run(machine_t*, symbol_t*, size_t, state_t);
+extern void machine_run(machine_t*, const char*);
 extern void machine_free(machine_t*);
 
 #endif
