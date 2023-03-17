@@ -46,3 +46,8 @@ char **strarr_copy(char **src, size_t size) {
 
   return dest;
 }
+
+void strarr_free(char **arr) {
+  free(arr[0]);
+  free(arr);
+}

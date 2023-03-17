@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "src/machine.h"
-#include "src/serializer.h"
+#include "machine.h"
+#include "serializer.h"
 
 int run(const char* f) {
   machine_t m;

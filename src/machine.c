@@ -101,9 +101,6 @@ void machine_run(machine_t* m, const char* input) {
 
 void machine_free(machine_t* m) {
   free(m->rules);
-  free(m->symbols[0]);
-  free(m->states[0]);
-
-  free(m->symbols);
-  free(m->states);
+  strarr_free(m->symbols);
+  strarr_free(m->states);
 }

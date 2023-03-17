@@ -6,5 +6,6 @@
 extern void strarr_write(char**, size_t, FILE*);
 extern char** strarr_read(size_t, FILE*);
 extern char** strarr_copy(char**, size_t);
+extern void strarr_free(char**);
 
 #endif
