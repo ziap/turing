@@ -64,11 +64,13 @@ int main(void) {
   machine_add_rule(&m, GO_PLUS_ADD, PLUS, PLUS, LEFT, GO_TO_ADD);
 
   machine_add_rule(&m, GO_TO_MARK, ZERO, ADDED_ZERO, RIGHT, GO_TO_END);
+  machine_add_rule(&m, GO_TO_MARK, BLANK, ADDED_ZERO, RIGHT, GO_TO_END);
   machine_add_rule(&m, GO_TO_MARK, ONE, ADDED_ONE, RIGHT, GO_TO_END);
   machine_add_rule(&m, GO_TO_MARK, ADDED_ZERO, ADDED_ZERO, LEFT, GO_TO_MARK);
   machine_add_rule(&m, GO_TO_MARK, ADDED_ONE, ADDED_ONE, LEFT, GO_TO_MARK);
 
   machine_add_rule(&m, GO_TO_ADD, ZERO, ADDED_ONE, RIGHT, GO_TO_END);
+  machine_add_rule(&m, GO_TO_ADD, BLANK, ADDED_ONE, RIGHT, GO_TO_END);
   machine_add_rule(&m, GO_TO_ADD, ONE, ADDED_ZERO, LEFT, CARRY);
   machine_add_rule(&m, GO_TO_ADD, ADDED_ZERO, ADDED_ZERO, LEFT, GO_TO_ADD);
   machine_add_rule(&m, GO_TO_ADD, ADDED_ONE, ADDED_ONE, LEFT, GO_TO_ADD);

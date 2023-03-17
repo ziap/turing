@@ -83,4 +83,7 @@ int main(int argc, const char** argv) {
     }
     return compile(argv[2]);
   }
+
+  fprintf(stderr, "ERROR: Unknown command: %s\n", argv[1]);
+  return 1;
 }
