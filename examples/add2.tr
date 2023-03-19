@@ -1,7 +1,8 @@
-# Adding 2 binary numbers
+# Adding 2 binary numbers a + b
 # Input:  1 0 0 0 1 0 + 1 0 0 0 1 1
 # Output: 1 0 0 0 1 0 1
 
+# Move the the end
 START_MOVE {
   0 0 > START_MOVE
   1 1 > START_MOVE
@@ -12,17 +13,26 @@ START_MOVE {
 }
 
 CHECK_LAST {
+  # Go to the plus sign and add 0/1 to the first number
   0 _ < PLUS_0_MOVE
   1 _ < PLUS_1_MOVE
+
+  # Base case: second number is zero
   + _ < CLEANUP
 }
 
+# Remove marking, go to beginning
 CLEANUP {
   @0 0 < CLEANUP
   @1 1 < CLEANUP
-  0 0 - HALT
+  0 0 < CLEANUP
+  1 1 < CLEANUP
+  _ _ > RM_LEADING_0
+}
+
+RM_LEADING_0 {
+  0 _ > RM_LEADING_0
   1 1 - HALT
-  _ _ - HALT
 }
 
 PLUS_0_MOVE {
@@ -32,11 +42,14 @@ PLUS_0_MOVE {
 }
 
 PLUS_0 {
+  # Find unmarked digit
+  @0 @0 < PLUS_0
+  @1 @1 < PLUS_0
+
+  # Unmarked digit found, add 0 (do nothing), mark and repeat
   0 @0 > START_MOVE
   _ @0 > START_MOVE
   1 @1 > START_MOVE
-  @0 @0 < PLUS_0
-  @1 @1 < PLUS_0
 }
 
 PLUS_1_MOVE {
@@ -46,13 +59,17 @@ PLUS_1_MOVE {
 }
 
 PLUS_1 {
+  # Find unmarked digit
+  @0 @0 < PLUS_1
+  @1 @1 < PLUS_1
+
+  # Unmarked digit found, add 1 (flip the bit, carry if needed), mark and repeat
   0 @1 > START_MOVE
   _ @1 > START_MOVE
   1 @0 < CARRY
-  @0 @0 < PLUS_1
-  @1 @1 < PLUS_1
 }
 
+# This is just incrementing a binary number
 CARRY {
   0 1 > START_MOVE
   _ 1 > START_MOVE

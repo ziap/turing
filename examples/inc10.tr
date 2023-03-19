@@ -1,0 +1,29 @@
+# Increment a decimal number
+
+START {
+  0 0 > START
+  1 1 > START
+  2 2 > START
+  3 3 > START
+  4 4 > START
+  5 5 > START
+  6 6 > START
+  7 7 > START
+  8 8 > START
+  9 9 > START
+  _ _ < INC
+}
+
+INC {
+  0 1 - HALT
+  1 2 - HALT
+  2 3 - HALT
+  3 4 - HALT
+  4 5 - HALT
+  5 6 - HALT
+  6 7 - HALT
+  7 8 - HALT
+  8 9 - HALT
+  9 0 < INC
+  _ 1 - HALT
+}

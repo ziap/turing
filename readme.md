@@ -28,7 +28,9 @@ OUTPUT: 1 0 0 0 1 0 1
 
 ## Creating turing machines
 
-Documentation for the description language coming soon
+Documentation for the description language coming soon. For the time being you
+can take a look at the examples to get a brief understanding of how to create
+turing machines.
 
 ## License
 

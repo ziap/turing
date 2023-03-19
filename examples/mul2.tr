@@ -1,0 +1,149 @@
+# Multiply 2 binary number
+# Input:  1 1 0 0 * 1 0 0 0 1 1
+# Output: 1 1 0 1 0 0 1 0 0
+
+# Create a plus symbol where the final result will be to the right of
+INIT {
+  1 1 < INIT
+  0 0 < INIT
+
+  _ + < CREATE_ZERO
+}
+
+# To handle multiply by zero
+CREATE_ZERO {
+  _ 0 > START
+}
+
+START {
+  0 0 > START
+  1 1 > START
+  * * > START
+  + + > START
+  _ _ < CHECK_END
+}
+
+# Devive second number by 2 (remove last bit)
+CHECK_END {
+  0 _ < SHIFT_MOVE
+
+  # If last bit is one, add first number to final result first
+  1 _ < ADD_MOVE
+
+  # Base case: second number is zero.
+  # In this case, delete the first number and the plus sign, what we're left
+  # with is the final result
+  * _ < CLEANUP
+}
+
+# Multiply first number by 2 (right-shift)
+SHIFT_MOVE {
+  0 0 < SHIFT_MOVE
+  1 1 < SHIFT_MOVE
+  * 0 > SHIFT_SYMBOL
+}
+
+SHIFT_SYMBOL {
+  0 * > SHIFT_ZERO
+  1 * > SHIFT_ONE
+  _ * - CHECK_END
+}
+
+SHIFT_ZERO {
+  0 0 > SHIFT_ZERO
+  1 0 > SHIFT_ONE
+  _ 0 - CHECK_END
+}
+
+SHIFT_ONE {
+  0 1 > SHIFT_ZERO
+  1 1 > SHIFT_ONE
+  _ 1 - CHECK_END
+}
+
+# Modified "Adding 2 binary numbers"
+ADD_MOVE {
+  0 0 < ADD_MOVE
+  1 1 < ADD_MOVE
+  * * < ADD_CHECK
+}
+
+# Don't remove the last bit because the number needs to be preserved
+ADD_CHECK {
+  @0 @0 < ADD_CHECK
+  @1 @1 < ADD_CHECK
+  0 @0 < ADD_0_MOVE
+  1 @1 < ADD_1_MOVE
+  + + < ADD_CLEAN_LEFT
+}
+
+ADD_0_MOVE {
+  0 0 < ADD_0_MOVE
+  1 1 < ADD_0_MOVE
+  + + < ADD_0
+}
+
+ADD_0 {
+  @0 @0 < ADD_0
+  @1 @1 < ADD_0
+
+  0 @0 > ADD_RESTART
+  1 @1 > ADD_RESTART
+  _ @0 > ADD_RESTART
+}
+
+ADD_1_MOVE {
+  0 0 < ADD_1_MOVE
+  1 1 < ADD_1_MOVE
+  + + < ADD_1
+}
+
+ADD_1 {
+  @0 @0 < ADD_1
+  @1 @1 < ADD_1
+
+  0 @1 > ADD_RESTART
+  1 @0 < CARRY
+  _ @1 > ADD_RESTART
+}
+
+CARRY {
+  0 1 > ADD_RESTART
+  1 0 < CARRY
+  _ 1 > ADD_RESTART
+}
+
+ADD_RESTART {
+  0 0 > ADD_RESTART
+  1 1 > ADD_RESTART
+  @0 @0 > ADD_RESTART
+  @1 @1 > ADD_RESTART
+  + + > ADD_RESTART
+  * * < ADD_CHECK
+}
+
+ADD_CLEAN_LEFT {
+  @0 0 < ADD_CLEAN_LEFT
+  @1 1 < ADD_CLEAN_LEFT
+  0 0 < ADD_CLEAN_LEFT
+  1 1 < ADD_CLEAN_LEFT
+  _ _ > ADD_CLEAN_RIGHT
+}
+
+ADD_CLEAN_RIGHT {
+  @0 0 > ADD_CLEAN_RIGHT
+  @1 1 > ADD_CLEAN_RIGHT
+  0 0 > ADD_CLEAN_RIGHT
+  1 1 > ADD_CLEAN_RIGHT
+  + + > ADD_CLEAN_RIGHT
+  * 0 > SHIFT_SYMBOL
+}
+
+CLEANUP {
+  0 _ < CLEANUP
+  1 _ < CLEANUP
+
+  # I can go even further and remove the extra zeros that usually happens when
+  # multiplying 0 with anything bigger than 1. However, I'm too lazy for that.
+  + _ < HALT
+}

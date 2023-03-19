@@ -1,0 +1,498 @@
+# Adding 2 decimal numbers
+# Input:  7 7 + 3 3
+# Output: 1 1 0
+
+START {
+  0 0 > START
+  1 1 > START
+  2 2 > START
+  3 3 > START
+  4 4 > START
+  5 5 > START
+  6 6 > START
+  7 7 > START
+  8 8 > START
+  9 9 > START
+
+  @0 @0 > START
+  @1 @1 > START
+  @2 @2 > START
+  @3 @3 > START
+  @4 @4 > START
+  @5 @5 > START
+  @6 @6 > START
+  @7 @7 > START
+  @8 @8 > START
+  @9 @9 > START
+
+  + + > START
+  _ _ < CHECK_LAST
+}
+
+CHECK_LAST {
+  0 _ < ADD_0_MOVE
+  1 _ < ADD_1_MOVE
+  2 _ < ADD_2_MOVE
+  3 _ < ADD_3_MOVE
+  4 _ < ADD_4_MOVE
+  5 _ < ADD_5_MOVE
+  6 _ < ADD_6_MOVE
+  7 _ < ADD_7_MOVE
+  8 _ < ADD_8_MOVE
+  9 _ < ADD_9_MOVE
+  + _ < CLEANUP
+}
+
+CLEANUP {
+  @0 0 < CLEANUP
+  @1 1 < CLEANUP
+  @2 2 < CLEANUP
+  @3 3 < CLEANUP
+  @4 4 < CLEANUP
+  @5 5 < CLEANUP
+  @6 6 < CLEANUP
+  @7 7 < CLEANUP
+  @8 8 < CLEANUP
+  @9 9 < CLEANUP
+
+  0 0 < CLEANUP
+  1 1 < CLEANUP
+  2 2 < CLEANUP
+  3 3 < CLEANUP
+  4 4 < CLEANUP
+  5 5 < CLEANUP
+  6 6 < CLEANUP
+  7 7 < CLEANUP
+  8 8 < CLEANUP
+  9 9 < CLEANUP
+
+  _ _ > RM_LEADING_0
+}
+
+RM_LEADING_0 {
+  0 _ > RM_LEADING_0
+  1 1 - HALT
+  2 2 - HALT
+  3 3 - HALT
+  4 4 - HALT
+  5 5 - HALT
+  6 6 - HALT
+  7 7 - HALT
+  8 8 - HALT
+  9 9 - HALT
+}
+
+ADD_0_MOVE {
+  0 0 < ADD_0_MOVE
+  1 1 < ADD_0_MOVE
+  2 2 < ADD_0_MOVE
+  3 3 < ADD_0_MOVE
+  4 4 < ADD_0_MOVE
+  5 5 < ADD_0_MOVE
+  6 6 < ADD_0_MOVE
+  7 7 < ADD_0_MOVE
+  8 8 < ADD_0_MOVE
+  9 9 < ADD_0_MOVE
+  + + < ADD_0
+}
+
+ADD_1_MOVE {
+  0 0 < ADD_1_MOVE
+  1 1 < ADD_1_MOVE
+  2 2 < ADD_1_MOVE
+  3 3 < ADD_1_MOVE
+  4 4 < ADD_1_MOVE
+  5 5 < ADD_1_MOVE
+  6 6 < ADD_1_MOVE
+  7 7 < ADD_1_MOVE
+  8 8 < ADD_1_MOVE
+  9 9 < ADD_1_MOVE
+  + + < ADD_1
+}
+
+ADD_2_MOVE {
+  0 0 < ADD_2_MOVE
+  1 1 < ADD_2_MOVE
+  2 2 < ADD_2_MOVE
+  3 3 < ADD_2_MOVE
+  4 4 < ADD_2_MOVE
+  5 5 < ADD_2_MOVE
+  6 6 < ADD_2_MOVE
+  7 7 < ADD_2_MOVE
+  8 8 < ADD_2_MOVE
+  9 9 < ADD_2_MOVE
+  + + < ADD_2
+}
+
+ADD_3_MOVE {
+  0 0 < ADD_3_MOVE
+  1 1 < ADD_3_MOVE
+  2 2 < ADD_3_MOVE
+  3 3 < ADD_3_MOVE
+  4 4 < ADD_3_MOVE
+  5 5 < ADD_3_MOVE
+  6 6 < ADD_3_MOVE
+  7 7 < ADD_3_MOVE
+  8 8 < ADD_3_MOVE
+  9 9 < ADD_3_MOVE
+  + + < ADD_3
+}
+
+ADD_4_MOVE {
+  0 0 < ADD_4_MOVE
+  1 1 < ADD_4_MOVE
+  2 2 < ADD_4_MOVE
+  3 3 < ADD_4_MOVE
+  4 4 < ADD_4_MOVE
+  5 5 < ADD_4_MOVE
+  6 6 < ADD_4_MOVE
+  7 7 < ADD_4_MOVE
+  8 8 < ADD_4_MOVE
+  9 9 < ADD_4_MOVE
+  + + < ADD_4
+}
+
+ADD_5_MOVE {
+  0 0 < ADD_5_MOVE
+  1 1 < ADD_5_MOVE
+  2 2 < ADD_5_MOVE
+  3 3 < ADD_5_MOVE
+  4 4 < ADD_5_MOVE
+  5 5 < ADD_5_MOVE
+  6 6 < ADD_5_MOVE
+  7 7 < ADD_5_MOVE
+  8 8 < ADD_5_MOVE
+  9 9 < ADD_5_MOVE
+  + + < ADD_5
+}
+
+ADD_6_MOVE {
+  0 0 < ADD_6_MOVE
+  1 1 < ADD_6_MOVE
+  2 2 < ADD_6_MOVE
+  3 3 < ADD_6_MOVE
+  4 4 < ADD_6_MOVE
+  5 5 < ADD_6_MOVE
+  6 6 < ADD_6_MOVE
+  7 7 < ADD_6_MOVE
+  8 8 < ADD_6_MOVE
+  9 9 < ADD_6_MOVE
+  + + < ADD_6
+}
+
+ADD_7_MOVE {
+  0 0 < ADD_7_MOVE
+  1 1 < ADD_7_MOVE
+  2 2 < ADD_7_MOVE
+  3 3 < ADD_7_MOVE
+  4 4 < ADD_7_MOVE
+  5 5 < ADD_7_MOVE
+  6 6 < ADD_7_MOVE
+  7 7 < ADD_7_MOVE
+  8 8 < ADD_7_MOVE
+  9 9 < ADD_7_MOVE
+  + + < ADD_7
+}
+
+ADD_8_MOVE {
+  0 0 < ADD_8_MOVE
+  1 1 < ADD_8_MOVE
+  2 2 < ADD_8_MOVE
+  3 3 < ADD_8_MOVE
+  4 4 < ADD_8_MOVE
+  5 5 < ADD_8_MOVE
+  6 6 < ADD_8_MOVE
+  7 7 < ADD_8_MOVE
+  8 8 < ADD_8_MOVE
+  9 9 < ADD_8_MOVE
+  + + < ADD_8
+}
+
+ADD_9_MOVE {
+  0 0 < ADD_9_MOVE
+  1 1 < ADD_9_MOVE
+  2 2 < ADD_9_MOVE
+  3 3 < ADD_9_MOVE
+  4 4 < ADD_9_MOVE
+  5 5 < ADD_9_MOVE
+  6 6 < ADD_9_MOVE
+  7 7 < ADD_9_MOVE
+  8 8 < ADD_9_MOVE
+  9 9 < ADD_9_MOVE
+  + + < ADD_9
+}
+
+ADD_0 {
+  0 @0 > START
+  1 @1 > START
+  2 @2 > START
+  3 @3 > START
+  4 @4 > START
+  5 @5 > START
+  6 @6 > START
+  7 @7 > START
+  8 @8 > START
+  9 @9 > START
+
+  @0 @0 < ADD_0
+  @1 @1 < ADD_0
+  @2 @2 < ADD_0
+  @3 @3 < ADD_0
+  @4 @4 < ADD_0
+  @5 @5 < ADD_0
+  @6 @6 < ADD_0
+  @7 @7 < ADD_0
+  @8 @8 < ADD_0
+  @9 @9 < ADD_0
+
+  _ @0 > START
+}
+
+ADD_1 {
+  0 @1 > START
+  1 @2 > START
+  2 @3 > START
+  3 @4 > START
+  4 @5 > START
+  5 @6 > START
+  6 @7 > START
+  7 @8 > START
+  8 @9 > START
+  9 @0 < CARRY
+
+  @0 @0 < ADD_1
+  @1 @1 < ADD_1
+  @2 @2 < ADD_1
+  @3 @3 < ADD_1
+  @4 @4 < ADD_1
+  @5 @5 < ADD_1
+  @6 @6 < ADD_1
+  @7 @7 < ADD_1
+  @8 @8 < ADD_1
+  @9 @9 < ADD_1
+
+  _ @1 > START
+}
+
+ADD_2 {
+  0 @2 > START
+  1 @3 > START
+  2 @4 > START
+  3 @5 > START
+  4 @6 > START
+  5 @7 > START
+  6 @8 > START
+  7 @9 > START
+  8 @0 < CARRY
+  9 @1 < CARRY
+
+  @0 @0 < ADD_2
+  @1 @1 < ADD_2
+  @2 @2 < ADD_2
+  @3 @3 < ADD_2
+  @4 @4 < ADD_2
+  @5 @5 < ADD_2
+  @6 @6 < ADD_2
+  @7 @7 < ADD_2
+  @8 @8 < ADD_2
+  @9 @9 < ADD_2
+
+  _ @2 > START
+}
+
+ADD_3 {
+  0 @3 > START
+  1 @4 > START
+  2 @5 > START
+  3 @6 > START
+  4 @7 > START
+  5 @8 > START
+  6 @9 > START
+  7 @0 < CARRY
+  8 @1 < CARRY
+  9 @2 < CARRY
+
+  @0 @0 < ADD_3
+  @1 @1 < ADD_3
+  @2 @2 < ADD_3
+  @3 @3 < ADD_3
+  @4 @4 < ADD_3
+  @5 @5 < ADD_3
+  @6 @6 < ADD_3
+  @7 @7 < ADD_3
+  @8 @8 < ADD_3
+  @9 @9 < ADD_3
+
+  _ @3 > START
+}
+
+ADD_4 {
+  0 @4 > START
+  1 @5 > START
+  2 @6 > START
+  3 @7 > START
+  4 @8 > START
+  5 @9 > START
+  6 @0 < CARRY
+  7 @1 < CARRY
+  8 @2 < CARRY
+  9 @3 < CARRY
+
+  @0 @0 < ADD_4
+  @1 @1 < ADD_4
+  @2 @2 < ADD_4
+  @3 @3 < ADD_4
+  @4 @4 < ADD_4
+  @5 @5 < ADD_4
+  @6 @6 < ADD_4
+  @7 @7 < ADD_4
+  @8 @8 < ADD_4
+  @9 @9 < ADD_4
+
+  _ @4 > START
+}
+
+ADD_5 {
+  0 @5 > START
+  1 @6 > START
+  2 @7 > START
+  3 @8 > START
+  4 @9 > START
+  5 @0 < CARRY
+  6 @1 < CARRY
+  7 @2 < CARRY
+  8 @3 < CARRY
+  9 @4 < CARRY
+
+  @0 @0 < ADD_5
+  @1 @1 < ADD_5
+  @2 @2 < ADD_5
+  @3 @3 < ADD_5
+  @4 @4 < ADD_5
+  @5 @5 < ADD_5
+  @6 @6 < ADD_5
+  @7 @7 < ADD_5
+  @8 @8 < ADD_5
+  @9 @9 < ADD_5
+
+  _ @5 > START
+}
+
+ADD_6 {
+  0 @6 > START
+  1 @7 > START
+  2 @8 > START
+  3 @9 > START
+  4 @0 < CARRY
+  5 @1 < CARRY
+  6 @2 < CARRY
+  7 @3 < CARRY
+  8 @4 < CARRY
+  9 @5 < CARRY
+
+  @0 @0 < ADD_6
+  @1 @1 < ADD_6
+  @2 @2 < ADD_6
+  @3 @3 < ADD_6
+  @4 @4 < ADD_6
+  @5 @5 < ADD_6
+  @6 @6 < ADD_6
+  @7 @7 < ADD_6
+  @8 @8 < ADD_6
+  @9 @9 < ADD_6
+
+  _ @6 > START
+}
+
+ADD_7 {
+  0 @7 > START
+  1 @8 > START
+  2 @9 > START
+  3 @0 < CARRY
+  4 @1 < CARRY
+  5 @2 < CARRY
+  6 @3 < CARRY
+  7 @4 < CARRY
+  8 @5 < CARRY
+  9 @6 < CARRY
+
+  @0 @0 < ADD_7
+  @1 @1 < ADD_7
+  @2 @2 < ADD_7
+  @3 @3 < ADD_7
+  @4 @4 < ADD_7
+  @5 @5 < ADD_7
+  @6 @6 < ADD_7
+  @7 @7 < ADD_7
+  @8 @8 < ADD_7
+  @9 @9 < ADD_7
+
+  _ @7 > START
+}
+
+ADD_8 {
+  0 @8 > START
+  1 @9 > START
+  2 @0 < CARRY
+  3 @1 < CARRY
+  4 @2 < CARRY
+  5 @3 < CARRY
+  6 @4 < CARRY
+  7 @5 < CARRY
+  8 @6 < CARRY
+  9 @7 < CARRY
+
+  @0 @0 < ADD_8
+  @1 @1 < ADD_8
+  @2 @2 < ADD_8
+  @3 @3 < ADD_8
+  @4 @4 < ADD_8
+  @5 @5 < ADD_8
+  @6 @6 < ADD_8
+  @7 @7 < ADD_8
+  @8 @8 < ADD_8
+  @9 @9 < ADD_8
+
+  _ @8 > START
+}
+
+ADD_9 {
+  0 @9 > START
+  1 @0 < CARRY
+  2 @1 < CARRY
+  3 @2 < CARRY
+  4 @3 < CARRY
+  5 @4 < CARRY
+  6 @5 < CARRY
+  7 @6 < CARRY
+  8 @7 < CARRY
+  9 @8 < CARRY
+
+  @0 @0 < ADD_9
+  @1 @1 < ADD_9
+  @2 @2 < ADD_9
+  @3 @3 < ADD_9
+  @4 @4 < ADD_9
+  @5 @5 < ADD_9
+  @6 @6 < ADD_9
+  @7 @7 < ADD_9
+  @8 @8 < ADD_9
+  @9 @9 < ADD_9
+
+  _ @9 > START
+}
+
+CARRY {
+  0 1 > START
+  1 2 > START
+  2 3 > START
+  3 4 > START
+  4 5 > START
+  5 6 > START
+  6 7 > START
+  7 8 > START
+  8 9 > START
+  9 0 < CARRY
+
+  _ 1 > START
+}

@@ -48,9 +48,13 @@ static bool expect_token(parser_t* parser, token_t* token, token_type_t type) {
 
 static bool parse_rule(parser_t* parser, token_t token, state_t s) {
   if (token.type == TOKEN_COMMENT) {
-    if (!expect_token(parser, &token, TOKEN_NEWLINE)) return false;
+    token = lexer_next(&parser->lexer);
+    if (token.type != TOKEN_NEWLINE) {
+      error_wrong_token(parser->file_name, token, TOKEN_NEWLINE);
+    }
     return true;
   }
+  if (token.type == TOKEN_NEWLINE) { return true; }
   if (token.type != TOKEN_IDEN) {
     error_wrong_token(parser->file_name, token, TOKEN_IDEN);
     return false;
