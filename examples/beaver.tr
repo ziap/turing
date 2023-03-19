@@ -1,0 +1,27 @@
+# 5-state, 2-symbol busy beaver
+# Taken from: https://en.wikipedia.org/wiki/Busy_beaver
+
+A {
+  _ @ > B
+  @ @ < C
+}
+
+B {
+  _ @ > C
+  @ @ > B
+}
+
+C {
+  _ @ > D
+  @ _ < E
+}
+
+D {
+  _ @ < A
+  @ @ < D
+}
+
+E {
+  _ @ > HALT
+  @ _ < A
+}

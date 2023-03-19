@@ -1,0 +1,60 @@
+# Adding 2 binary numbers
+# Input:  1 0 0 0 1 0 + 1 0 0 0 1 1
+# Output: 1 0 0 0 1 0 1
+
+START_MOVE {
+  0 0 > START_MOVE
+  1 1 > START_MOVE
+  @0 @0 > START_MOVE
+  @1 @1 > START_MOVE
+  + + > START_MOVE
+  _ _ < CHECK_LAST
+}
+
+CHECK_LAST {
+  0 _ < PLUS_0_MOVE
+  1 _ < PLUS_1_MOVE
+  + _ < CLEANUP
+}
+
+CLEANUP {
+  @0 0 < CLEANUP
+  @1 1 < CLEANUP
+  0 0 - HALT
+  1 1 - HALT
+  _ _ - HALT
+}
+
+PLUS_0_MOVE {
+  0 0 < PLUS_0_MOVE
+  1 1 < PLUS_0_MOVE
+  + + < PLUS_0
+}
+
+PLUS_0 {
+  0 @0 > START_MOVE
+  _ @0 > START_MOVE
+  1 @1 > START_MOVE
+  @0 @0 < PLUS_0
+  @1 @1 < PLUS_0
+}
+
+PLUS_1_MOVE {
+  0 0 < PLUS_1_MOVE
+  1 1 < PLUS_1_MOVE
+  + + < PLUS_1
+}
+
+PLUS_1 {
+  0 @1 > START_MOVE
+  _ @1 > START_MOVE
+  1 @0 < CARRY
+  @0 @0 < PLUS_1
+  @1 @1 < PLUS_1
+}
+
+CARRY {
+  0 1 > START_MOVE
+  _ 1 > START_MOVE
+  1 0 < CARRY
+}

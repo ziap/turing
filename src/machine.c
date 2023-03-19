@@ -7,22 +7,25 @@
 
 #include "strarr.h"
 
-void machine_init(
-  machine_t* m, char** symbols, size_t symbol_count, char** states,
-  size_t state_count, state_t default_state
-) {
-  m->symbol_count = symbol_count;
-  m->symbols = strarr_copy(symbols, symbol_count);
+machine_t machine_new(set_t symbols, set_t states) {
+  machine_t m;
+  m.symbol_count = symbols.length;
+  m.symbols = strarr_from_set(symbols);
 
-  m->state_count = state_count;
-  m->states = strarr_copy(states, state_count);
+  for (symbol_t i = 0; i < m.symbol_count; ++i) {
+    for (char* j = m.symbols[i]; *j != 0; ++j) {
+      if (*j == '_') *j = ' ';
+    }
+  }
 
-  m->rules = malloc(state_count * symbol_count * sizeof(rule_t));
+  m.state_count = states.length;
+  m.states = strarr_from_set(states);
 
-  m->default_state = default_state;
+  m.rules = malloc(m.state_count * m.symbol_count * sizeof(rule_t));
 
   // By default: write to blank, do nothing and switch to halt state
-  memset(m->rules, 0, state_count * symbol_count * sizeof(rule_t));
+  memset(m.rules, 0, m.state_count * m.symbol_count * sizeof(rule_t));
+  return m;
 }
 
 void machine_add_rule(
@@ -39,8 +42,7 @@ void machine_add_rule(
 }
 
 void machine_run(machine_t* m, const char* input) {
-  tape_t tape;
-  tape_init(&tape);
+  tape_t tape = tape_new();
 
   const char* ptr = input;
 
@@ -71,7 +73,7 @@ void machine_run(machine_t* m, const char* input) {
   }
 
   tape.head = tape.begin;
-  state_t current_state = m->default_state + 1;
+  state_t current_state = 1;
 
   for (;;) {
     size_t state_idx = m->symbol_count * (current_state - 1);

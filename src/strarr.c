@@ -24,25 +24,21 @@ char **strarr_read(size_t size, FILE *f) {
   return src;
 }
 
-char **strarr_copy(char **src, size_t size) {
-  size_t *offsets = malloc(size * sizeof(size_t));
-
+char **strarr_from_set(set_t set) {
+  size_t size = set.length;
   size_t total_offset = 0;
-  for (size_t i = 0; i < size; ++i) {
-    offsets[i] = strlen(src[i]) + 1;
-    total_offset += offsets[i];
-  }
+  for (size_t i = 0; i < size; ++i) { total_offset += set.data[i].length + 1; }
 
   char **dest = malloc(size * sizeof(char *));
   dest[0] = malloc(total_offset);
-  memcpy(dest[0], src[0], offsets[0]);
+  memcpy(dest[0], set.data[0].str, set.data[0].length);
+  dest[0][set.data[0].length] = 0;
 
   for (size_t i = 1; i < size; ++i) {
-    dest[i] = dest[i - 1] + offsets[i - 1];
-    memcpy(dest[i], src[i], offsets[i]);
+    dest[i] = dest[i - 1] + set.data[i - 1].length + 1;
+    memcpy(dest[i], set.data[i].str, set.data[i].length);
+    dest[i][set.data[i].length] = 0;
   }
-
-  free(offsets);
 
   return dest;
 }

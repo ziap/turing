@@ -12,7 +12,6 @@ bool save_machine(machine_t *m, const char *file_path) {
 
   fwrite(&m->symbol_count, 1, sizeof(symbol_t), f);
   fwrite(&m->state_count, 1, sizeof(state_t), f);
-  fwrite(&m->default_state, 1, sizeof(state_t), f);
 
   strarr_write(m->symbols, m->symbol_count, f);
   strarr_write(m->states, m->state_count, f);
@@ -29,7 +28,6 @@ bool load_machine(machine_t *m, const char *file_path) {
 
   fread(&m->symbol_count, 1, sizeof(symbol_t), f);
   fread(&m->state_count, 1, sizeof(state_t), f);
-  fread(&m->default_state, 1, sizeof(state_t), f);
 
   m->symbols = strarr_read(m->symbol_count, f);
   m->states = strarr_read(m->state_count, f);

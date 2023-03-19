@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 
+#include "dumbset.h"
 #include "tape.h"
 
 typedef uint16_t state_t;
@@ -26,11 +27,10 @@ typedef struct {
   char** symbols;
   char** states;
 
-  state_t default_state;
   rule_t* rules;
 } machine_t;
 
-extern void machine_init(machine_t*, char**, size_t, char**, size_t, state_t);
+extern machine_t machine_new(set_t, set_t);
 
 extern void machine_add_rule(
   machine_t*, state_t, symbol_t, symbol_t, move_t, state_t

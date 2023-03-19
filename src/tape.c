@@ -5,14 +5,16 @@
 
 #define TAPE_INIT_SIZE 512  // * 2 bytes = 1 KB
 
-void tape_init(tape_t *tape) {
-  tape->size = TAPE_INIT_SIZE;
-  tape->data = malloc(tape->size * sizeof(symbol_t));
-  memset(tape->data, 0, tape->size * sizeof(symbol_t));
+tape_t tape_new(void) {
+  tape_t tape;
+  tape.size = TAPE_INIT_SIZE;
+  tape.data = malloc(tape.size * sizeof(symbol_t));
+  memset(tape.data, 0, tape.size * sizeof(symbol_t));
 
-  tape->head = tape->size / 2;
-  tape->begin = tape->head;
-  tape->end = tape->head + 1;
+  tape.head = tape.size / 2;
+  tape.begin = tape.head;
+  tape.end = tape.head + 1;
+  return tape;
 }
 
 void tape_move_right(tape_t *tape) {
