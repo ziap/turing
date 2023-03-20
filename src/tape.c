@@ -35,6 +35,8 @@ void tape_move_right(tape_t *tape) {
 void tape_move_left(tape_t *tape) {
   if (tape->head == 0) {
     symbol_t *new_data = malloc(tape->size * 2 * sizeof(symbol_t));
+
+    // The indices need to point to the second half of the buffer
     tape->head += tape->size;
     tape->begin += tape->size;
     tape->end += tape->size;
@@ -54,10 +56,13 @@ symbol_t tape_read(tape_t *tape) { return tape->data[tape->head]; }
 
 void tape_write(tape_t *tape, symbol_t value) {
   tape->data[tape->head] = value;
+
   if (value) {
     if (tape->head + 1 > tape->end) tape->end = tape->head + 1;
     if (tape->head < tape->begin) tape->begin = tape->head;
   }
+
+  // Trim extra blank symbols from both sides
   while (tape->end > tape->begin && !tape->data[tape->end - 1]) tape->end--;
   while (tape->end > tape->begin && !tape->data[tape->begin]) tape->begin++;
 }

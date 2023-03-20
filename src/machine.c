@@ -12,6 +12,8 @@ machine_t machine_new(set_t symbols, set_t states) {
   m.symbol_count = symbols.length;
   m.symbols = strarr_from_set(symbols);
 
+  // I don't wanna explicitly define an empty symbol, so I just replace all '_'
+  // with ' ' in the symbol set to make '_' the empty symbol.
   for (symbol_t i = 0; i < m.symbol_count; ++i) {
     for (char* j = m.symbols[i]; *j != 0; ++j) {
       if (*j == '_') *j = ' ';
@@ -46,12 +48,13 @@ void machine_run(machine_t* m, const char* input) {
 
   const char* ptr = input;
 
-  while (*ptr != '\0') {
+  // Parse the input string. Essentially this is another lexer.
+  while (*ptr != 0) {
     while (*ptr == ' ') ptr++;
-    if (*ptr == '\0') break;
+    if (*ptr == 0) break;
     const char* next = ptr + 1;
 
-    while (*next != '\0' && *next != ' ') next++;
+    while (*next != 0 && *next != ' ') next++;
     size_t len = next - ptr;
 
     bool found = false;
@@ -79,6 +82,7 @@ void machine_run(machine_t* m, const char* input) {
     size_t state_idx = m->symbol_count * (current_state - 1);
     rule_t* rule = m->rules + state_idx + tape_read(&tape);
 
+    // The preserved 0 mentioned earlier
     if (rule->next_state == 0) break;
 
     tape_write(&tape, rule->write_symbol);

@@ -30,8 +30,8 @@ static bool match_char(lexer_t* lex, token_t* tok, token_type_t type, char c) {
 }
 
 token_t lexer_next(lexer_t* lexer) {
-  while (lexer->cursor < lexer->end &&
-         (*lexer->cursor == ' ' || *lexer->cursor == '\t')) {
+  while (lexer->cursor < lexer->end) {
+    if (*lexer->cursor != ' ' && *lexer->cursor != '\t') break;
     lexer->cursor++;
   }
 
@@ -69,6 +69,7 @@ token_t lexer_next(lexer_t* lexer) {
     token.type = TOKEN_COMMENT;
     token.length = 1;
 
+    // Mark everythin after '#' as comment until a newline character is reached
     while (lexer->cursor < lexer->end && *lexer->cursor != '\n') {
       token.length++;
       lexer->cursor++;

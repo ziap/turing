@@ -26,6 +26,7 @@ static void lines_add(lines_t* lines, line_t line) {
 
 static void lines_free(lines_t* lines) { free(lines->data); }
 
+// TODO: More specific error messages
 static void error_wrong_token(
   const char* file_name, token_t token, token_type_t expecting
 ) {
@@ -46,19 +47,22 @@ static bool expect_token(parser_t* parser, token_t* token, token_type_t type) {
   return true;
 }
 
-static bool parse_rule(parser_t* parser, token_t token, state_t s) {
+static bool parse_line(parser_t* parser, token_t token, state_t s) {
   if (token.type == TOKEN_COMMENT) {
-    token = lexer_next(&parser->lexer);
-    if (token.type != TOKEN_NEWLINE) {
-      error_wrong_token(parser->file_name, token, TOKEN_NEWLINE);
-    }
+    if (!expect_token(parser, &token, TOKEN_NEWLINE)) return false;
+
+    // A commented line is still a succesfully parsed line
     return true;
   }
+
+  // The same goes to an empty line
   if (token.type == TOKEN_NEWLINE) { return true; }
+
   if (token.type != TOKEN_IDEN) {
     error_wrong_token(parser->file_name, token, TOKEN_IDEN);
     return false;
   }
+
   symbol_t r = set_find_and_add(&parser->symbols, token.text, token.length);
 
   if (!expect_token(parser, &token, TOKEN_IDEN)) return false;
@@ -79,6 +83,7 @@ static bool parse_rule(parser_t* parser, token_t token, state_t s) {
   if (!expect_token(parser, &token, TOKEN_IDEN)) return false;
   state_t n = set_find_and_add(&parser->states, token.text, token.length);
 
+  // Handle comment after end of line
   token = lexer_next(&parser->lexer);
   if (token.type == TOKEN_COMMENT) token = lexer_next(&parser->lexer);
   if (token.type != TOKEN_NEWLINE) {
@@ -86,14 +91,7 @@ static bool parse_rule(parser_t* parser, token_t token, state_t s) {
     return false;
   }
 
-  line_t line = {
-    .current = s,
-    .read = r,
-    .write = w,
-    .dir = dir,
-    .next = n,
-  };
-
+  line_t line = {.current = s, .read = r, .write = w, .dir = dir, .next = n};
   lines_add(&parser->lines, line);
 
   return true;
@@ -107,28 +105,27 @@ invalid_arrow:
 }
 
 static bool parse_block(parser_t* parser, state_t s) {
+  // Consume the '{'
   token_t token = lexer_next(&parser->lexer);
 
+  // Force line break after '{'
   while (token.type != TOKEN_NEWLINE) {
     if (token.type == TOKEN_COMMENT) {
       token = lexer_next(&parser->lexer);
       continue;
     }
 
-    fprintf(
-      stderr, "%s:%lu:%lu: ERROR: Expecting `NEWLINE`, found `%s`\n",
-      parser->file_name, token.line, token.col, token_display[token.type]
-    );
-
+    error_wrong_token(parser->file_name, token, TOKEN_NEWLINE);
     return false;
   }
 
   token = lexer_next(&parser->lexer);
   while (token.type != TOKEN_RCURLY) {
-    if (!parse_rule(parser, token, s)) return false;
+    if (!parse_line(parser, token, s)) return false;
     token = lexer_next(&parser->lexer);
   }
 
+  // Consume the '}'
   token = lexer_next(&parser->lexer);
   return true;
 }
@@ -143,6 +140,8 @@ bool parse_machine(const char* file_name, const char* content, machine_t* m) {
 
   parser.lines = lines_new();
 
+  // Do this so empty symbol will always be 0 no matter when they are
+  // encountered in the source file.
   set_find_and_add(&parser.symbols, "_", 1);
 
   token_t token = lexer_next(&parser.lexer);
@@ -167,9 +166,9 @@ bool parse_machine(const char* file_name, const char* content, machine_t* m) {
 
   *m = machine_new(parser.symbols, parser.states);
 
-  for (line_t* l = parser.lines.data;
-       l < parser.lines.data + parser.lines.length; ++l) {
-    machine_add_rule(m, l->current, l->read, l->write, l->dir, l->next);
+  for (size_t i = 0; i < parser.lines.length; ++i) {
+    line_t l = parser.lines.data[i];
+    machine_add_rule(m, l.current, l.read, l.write, l.dir, l.next);
   }
 
   set_free(&parser.states);

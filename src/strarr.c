@@ -25,6 +25,8 @@ char **strarr_read(size_t size, FILE *f) {
 }
 
 char **strarr_from_set(set_t set) {
+  if (set.length == 0) return NULL;
+
   size_t size = set.length;
   size_t total_offset = 0;
   for (size_t i = 0; i < size; ++i) { total_offset += set.data[i].length + 1; }

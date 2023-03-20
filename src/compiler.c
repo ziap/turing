@@ -25,6 +25,8 @@ const char* slurp_file(const char* file_name) {
   fclose(f);
 
   return buf;
+
+  // TODO: Handle errors for fseek, ftell, ...
 }
 
 int compile(const char* in, const char* out) {
