@@ -9,7 +9,7 @@
 #include "parser.h"
 #include "serializer.h"
 
-const char* slurp_file(const char* file_name) {
+char* slurp_file(const char* file_name) {
   FILE* f = fopen(file_name, "rb");
   if (!f) return NULL;
 
@@ -30,7 +30,7 @@ const char* slurp_file(const char* file_name) {
 }
 
 int compile(const char* in, const char* out) {
-  const char* content = slurp_file(in);
+  char* content = slurp_file(in);
   if (!content) {
     fprintf(stderr, "ERROR: Can't open file %s: %s\n", in, strerror(errno));
     return 1;
@@ -40,5 +40,7 @@ int compile(const char* in, const char* out) {
   if (!parse_machine(in, content, &m)) return 1;
   save_machine(&m, out);
 
+  machine_free(&m);
+  free(content);
   return 0;
 }
