@@ -1,8 +1,9 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
-#include "compiler.h"
-#include "runner.h"
+#include "compiler/compiler.h"
+#include "runtime/runner.h"
 
 int main(int argc, const char** argv) {
   if (argc < 2) {

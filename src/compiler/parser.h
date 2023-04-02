@@ -1,18 +1,16 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include <stdbool.h>
-
+#include "../common.h"
 #include "dumbset.h"
 #include "lexer.h"
-#include "machine.h"
 
 typedef struct {
-  state_t current;
-  symbol_t read;
-  symbol_t write;
+  uint16_t current;
+  uint16_t read;
+  uint16_t write;
   move_t dir;
-  state_t next;
+  uint16_t next;
 } line_t;
 
 typedef struct {
@@ -32,6 +30,8 @@ typedef struct {
   lexer_t lexer;
 } parser_t;
 
-extern bool parse_machine(const char*, const char*, machine_t*);
+extern parser_t parser_new(const char*, sized_str_t);
+extern bool parse_machine(parser_t*);
+extern void parser_cleanup(parser_t*);
 
 #endif

@@ -1,8 +1,7 @@
 #ifndef LEXER_H
 #define LEXER_H
 
-#include <stdbool.h>
-#include <stddef.h>
+#include "../common.h"
 
 typedef enum {
   TOKEN_COMMENT,
@@ -20,21 +19,20 @@ extern const char* token_display[TOKEN_COUNT];
 
 typedef struct {
   token_type_t type;
-  const char* text;
-  size_t length;
+  sized_str_t text;
   size_t line;
   size_t col;
 } token_t;
 
 typedef struct {
-  const char* content;
-  const char* cursor;
+  char* content;
+  char* cursor;
   const char* end;
   size_t line;
   const char* line_start;
 } lexer_t;
 
-extern lexer_t lexer_new(const char*);
+extern lexer_t lexer_new(sized_str_t);
 extern token_t lexer_next(lexer_t*);
 
 #endif

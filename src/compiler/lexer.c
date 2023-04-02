@@ -4,15 +4,15 @@
 #include <string.h>
 
 const char* token_display[TOKEN_COUNT] = {
-  "COMMENT", "{", "}", "ARROW", "IDEN", "NEWLINE", "EOF", "UNKNOWN",
+  "COMMENT", "{", "}", "ARROW", "IDENTIFIER", "NEWLINE", "EOF", "UNKNOWN",
 };
 
-lexer_t lexer_new(const char* content) {
+lexer_t lexer_new(sized_str_t content) {
   lexer_t lexer = {
-    .content = content,
-    .cursor = content,
-    .end = content + strlen(content),
-    .line_start = content,
+    .content = content.data,
+    .cursor = content.data,
+    .end = content.data + content.len,
+    .line_start = content.data,
     .line = 1,
   };
 
@@ -24,7 +24,7 @@ static bool match_char(lexer_t* lex, token_t* tok, token_type_t type, char c) {
 
   lex->cursor++;
   tok->type = type;
-  tok->length = 1;
+  tok->text.len = 1;
 
   return true;
 }
@@ -38,11 +38,11 @@ token_t lexer_next(lexer_t* lexer) {
   token_t token;
   token.line = lexer->line;
   token.col = lexer->cursor - lexer->line_start + 1;
-  token.text = lexer->cursor;
+  token.text.data = lexer->cursor;
 
   if (lexer->cursor >= lexer->end) {
     token.type = TOKEN_EOF;
-    token.length = 0;
+    token.text.len = 0;
 
     return token;
   };
@@ -59,7 +59,7 @@ token_t lexer_next(lexer_t* lexer) {
     lexer->line_start = lexer->cursor;
 
     token.type = TOKEN_NEWLINE;
-    token.length = 1;
+    token.text.len = 1;
 
     return token;
   }
@@ -67,11 +67,11 @@ token_t lexer_next(lexer_t* lexer) {
   if (*lexer->cursor == '#') {
     lexer->cursor++;
     token.type = TOKEN_COMMENT;
-    token.length = 1;
+    token.text.len = 1;
 
     // Mark everythin after '#' as comment until a newline character is reached
     while (lexer->cursor < lexer->end && *lexer->cursor != '\n') {
-      token.length++;
+      token.text.len++;
       lexer->cursor++;
     }
 
@@ -80,7 +80,7 @@ token_t lexer_next(lexer_t* lexer) {
 
   // Everything else is an identifier (for now)
   token.type = TOKEN_IDEN;
-  token.length = 1;
+  token.text.len = 1;
   lexer->cursor++;
 
   while (lexer->cursor < lexer->end) {
@@ -93,7 +93,7 @@ token_t lexer_next(lexer_t* lexer) {
     }
     if (!is_iden) break;
 
-    token.length++;
+    token.text.len++;
     lexer->cursor++;
   }
 
