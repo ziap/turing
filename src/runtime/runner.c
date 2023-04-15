@@ -88,7 +88,7 @@ static void machine_run(machine_t* m, const char* input) {
 }
 
 int run(const char* file_path) {
-  sized_str_t content;
+  sized_str_t content = {0};
   char* input = NULL;
   if (!read_file(file_path, &content)) goto fail;
   machine_t m;

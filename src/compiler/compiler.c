@@ -10,7 +10,7 @@
 #include "parser.h"
 
 int compile(const char* in, const char* out) {
-  sized_str_t content;
+  sized_str_t content = {0};
   parser_t parser = {0};
   rule_t* rules = NULL;
   FILE* f = NULL;
@@ -37,7 +37,12 @@ int compile(const char* in, const char* out) {
   }
 
   f = fopen(out, "wb");
-  if (!f) goto fail;
+  if (!f) {
+    fprintf(
+      stderr, "ERROR: failed to write file `%s`: %s\n", out, strerror(errno)
+    );
+    goto fail;
+  }
 
   uint32_t len = parser.symbols.size;
   fwrite(&len, 1, sizeof(len), f);
@@ -55,12 +60,6 @@ int compile(const char* in, const char* out) {
   fclose(f);
   return 0;
 fail:
-  if (errno) {
-    fprintf(
-      stderr, "ERROR: failed to write file `%s`: %s\n", out, strerror(errno)
-    );
-  }
-
   if (content.data) free(content.data);
   parser_cleanup(&parser);
   if (rules) free(rules);

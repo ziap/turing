@@ -1,0 +1,44 @@
+# Check if a binary number is a palindrome string
+
+# Delete a character, go to the end to check if it's the same
+START {
+  0 _ > CHECK_0_MOVE
+  1 _ > CHECK_1_MOVE
+
+  # First base case: An empty string is a palindrome string
+  _ _ - ACCEPT
+}
+
+CHECK_0_MOVE {
+  0 0 > CHECK_0_MOVE
+  1 1 > CHECK_0_MOVE
+  _ _ < CHECK_0
+}
+
+CHECK_1_MOVE {
+  0 0 > CHECK_1_MOVE
+  1 1 > CHECK_1_MOVE
+  _ _ < CHECK_1
+}
+
+CHECK_0 {
+  0 _ < GO_BACK
+  1 1 - REJECT
+
+  # Second base case: A string with only 1 character is a palindrome string
+  _ _ - ACCEPT
+}
+
+CHECK_1 {
+  1 _ < GO_BACK
+  0 0 - REJECT
+
+  _ _ - ACCEPT
+}
+
+# Repeat the process until the string is empty/not a palindrome
+GO_BACK {
+  0 0 < GO_BACK
+  1 1 < GO_BACK
+  _ _ > START
+}
