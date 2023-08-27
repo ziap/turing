@@ -23,7 +23,5 @@ $CC -o turing $CFLAGS $BUILD_FLAGS $LDLIBS $SRC
 for FILE in $(ls examples/*.tr)
 do
   OUTPUT=$(basename $FILE)
-  ./turing compile $FILE compiled/${OUTPUT/\.tr/\.tb} &
+  ./turing compile $FILE compiled/${OUTPUT/\.tr/\.tb}
 done
-
-wait
